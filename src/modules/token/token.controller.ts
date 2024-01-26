@@ -23,7 +23,6 @@ export const createTokenHandler = async (
   reply: FastifyReply,
 ) => {
   try {
-    console.log({ requestBody: request.body });
     const token = await createToken(request.body);
 
     return reply.code(201).send(token);
@@ -42,15 +41,7 @@ export const getAllTokensHandler = async (_: unknown, reply: FastifyReply) => {
         try {
           const price = await getTokenPrice(token.symbol);
 
-          return {
-            _id: token._id,
-            name: token.name,
-            symbol: token.symbol,
-            decimals: token.decimals,
-            address: token.address,
-            pair: token.pair,
-            price,
-          };
+          return { ...token, price };
         } catch (e) {
           logger.error(
             e,

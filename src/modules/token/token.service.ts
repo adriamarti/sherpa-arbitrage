@@ -10,7 +10,7 @@ export const createToken = async (input: CreateTokenBody): Promise<Token> => {
 };
 
 export const getAllTokens = async (): Promise<Token[]> => {
-  return TokenModel.find().populate('pair');
+  return TokenModel.find().populate('pair').lean();
 };
 
 export const getToken = async (
