@@ -9,14 +9,22 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@ethersproject/address": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/providers": "^5.7.2",
+    "@ethersproject/solidity": "^5.7.0",
     "@fastify/swagger": "^7.4.1",
     "@fastify/type-provider-json-schema-to-ts": "^2.2.2",
     "@sinclair/typebox": "^0.31.21",
     "@typegoose/typegoose": "^11.6.0",
+    "@uniswap/sdk-core": "^4.0.9",
+    "@uniswap/v2-sdk": "^3.2.3",
+    "axios": "^1.6.7",
     "env-schema": "^5.2.1",
     "fastify": "^4.24.3",
     "mongoose": "^7.6.3",
-    "nanoid": "3.3.4"
+    "nanoid": "3.3.4",
+    "web3": "^4.2.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.2.0",

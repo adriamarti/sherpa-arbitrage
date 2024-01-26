@@ -35,11 +35,11 @@ const startServer = async () => {
       gracefulShutdown({
         signal: signals[i],
         server,
-      })
+      }),
     );
   }
 
-  logger.info('App is listening');
+  logger.info(`App is listening on ${config.HOST}::${config.PORT}`);
 };
 
 // Start App
