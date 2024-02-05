@@ -54,7 +54,7 @@ export const getAllTokensHandler = async (_: unknown, reply: FastifyReply) => {
 
     // @TODO should add pagination
     return reply
-      .code(201)
+      .code(200)
       .send({ total: tokensWithPrice.length, page: tokensWithPrice });
   } catch (e) {
     logger.error(e, 'getAllTokensHandler: error getting all tokens');

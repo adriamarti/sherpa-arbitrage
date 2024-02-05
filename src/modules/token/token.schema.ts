@@ -9,7 +9,18 @@ export const token = Type.Object({
   createdAt: Type.String(),
   updatedAt: Type.String(),
   price: Type.Optional(Type.Number()),
-  pairs: Type.Optional(Type.Array(Type.String())),
+  pairs: Type.Optional(
+    Type.Array(
+      Type.Object({
+        _id: Type.String(),
+        token0: Type.String(),
+        token1: Type.String(),
+        uniswapV2Address: Type.Optional(Type.String()),
+        createdAt: Type.String(),
+        updatedAt: Type.String(),
+      }),
+    ),
+  ),
 });
 
 export const createTokenSchema = {

@@ -4,19 +4,20 @@ import axios from 'axios';
 import { Token, TokenModel } from './token.model';
 import { CreateTokenBody, UpdateTokenBody } from './token.schema';
 import { config } from '../../utils/config';
+import { PairModel } from '../pair/pair.model';
 
 export const createToken = async (input: CreateTokenBody): Promise<Token> => {
   return TokenModel.create({ ...input });
 };
 
 export const getAllTokens = async (): Promise<Token[]> => {
-  return TokenModel.find().populate('pair').lean();
+  return TokenModel.find().populate('pairs').lean();
 };
 
 export const getToken = async (
   id: Types.ObjectId,
 ): Promise<Token | null | undefined> => {
-  return TokenModel.findById(id).populate('pair').lean();
+  return TokenModel.findById(id).populate('pairs').lean();
 };
 
 export const updateToken = async (
@@ -24,14 +25,14 @@ export const updateToken = async (
   input: UpdateTokenBody,
 ): Promise<Token | null | undefined> => {
   return TokenModel.findByIdAndUpdate(id, input, { new: true })
-    .populate('pair')
+    .populate('pairs')
     .lean();
 };
 
 export const deleteToken = async (
   id: Types.ObjectId,
 ): Promise<Token | null | undefined> => {
-  return TokenModel.findByIdAndDelete(id).populate('pair').lean();
+  return TokenModel.findByIdAndDelete(id).populate('pairs').lean();
 };
 
 export const addPairToken = async (
@@ -40,10 +41,10 @@ export const addPairToken = async (
 ): Promise<Token | null | undefined> => {
   return TokenModel.findByIdAndUpdate(
     id,
-    { $push: { pair: pairId } },
+    { $push: { pairs: pairId } },
     { new: true },
   )
-    .populate('pair')
+    .populate('pairs')
     .lean();
 };
 
