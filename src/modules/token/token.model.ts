@@ -1,10 +1,6 @@
 import { getModelForClass, prop, Ref } from '@typegoose/typegoose';
 import { Document } from 'mongoose';
 
-// Forward declare the Pair class
-// Can't import Pair from 'pair.model.ts' because circular dependency issue
-class Pair {}
-
 export class Token extends Document {
   @prop({ type: String, required: true, unique: true })
   name!: string;
@@ -18,8 +14,8 @@ export class Token extends Document {
   @prop({ type: String, required: true, unique: true })
   address!: string;
 
-  @prop({ ref: () => Pair, required: false })
-  pair: Ref<Pair>[] = [];
+  @prop({ ref: () => 'Pair', required: false })
+  pairs: Ref<any>[] = [];
 }
 
 export const TokenModel = getModelForClass(Token, {
