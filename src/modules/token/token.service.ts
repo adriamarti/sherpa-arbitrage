@@ -1,13 +1,23 @@
 import { Types } from 'mongoose';
+import { Contract } from '@ethersproject/contracts';
+import { AlchemyProvider } from '@ethersproject/providers';
 import axios from 'axios';
 
 import { Token, TokenModel } from './token.model';
 import { CreateTokenBody, UpdateTokenBody } from './token.schema';
+import { abi } from './contracts/ERC20';
 import { config } from '../../utils/config';
-import { PairModel } from '../pair/pair.model';
 
-export const createToken = async (input: CreateTokenBody): Promise<Token> => {
-  return TokenModel.create({ ...input });
+const provider = new AlchemyProvider('homestead', config.ALCHEMY_API_KEY);
+
+export const createToken = async ({
+  address,
+}: CreateTokenBody): Promise<Token> => {
+  const contract = new Contract(address, abi, provider);
+  const name = await contract.name();
+  const symbol = await contract.symbol();
+  const decimals = await contract.decimals();
+  return TokenModel.create({ address, name, decimals, symbol });
 };
 
 export const getAllTokens = async (): Promise<Token[]> => {
