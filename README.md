@@ -12,6 +12,25 @@ This bot would only work with Descnetralized Exchanges that have been forked fro
 2. [PancakeSwap](https://docs.pancakeswap.finance/)
 3. [SushiSwap](https://www.sushi.com/)
 
+### DB Architecture
+
+```mermaid
+classDiagram
+    Token <|--|> Pair
+    class Token{
+        name!: string
+        symbol!: string
+        decimals!: number
+        address!: string
+        pairs: Pair[]
+    }
+    class Pair{
+        token0!: Token
+        token1!: Token
+        uniswapV2Address!: string
+    }
+```
+
 #### Potential Tokens
 
 - Tether USD (USDT) - `0xdac17f958d2ee523a2206206994597c13d831ec7`
