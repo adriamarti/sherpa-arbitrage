@@ -23,20 +23,6 @@ export const token = Type.Object({
   ),
 });
 
-// export const createTokenSchema = {
-//   tags: ['token'],
-//   description: 'Creates a token resource',
-//   body: Type.Object({
-//     name: Type.String(),
-//     symbol: Type.String(),
-//     decimals: Type.Number(),
-//     address: Type.String(),
-//   }),
-//   response: {
-//     201: token,
-//   },
-// };
-
 export const createTokenSchema = {
   tags: ['token'],
   description: 'Creates a token resource',
