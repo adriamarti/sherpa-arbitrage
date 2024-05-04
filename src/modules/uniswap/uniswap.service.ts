@@ -1,4 +1,3 @@
-import { Pair } from '@uniswap/v2-sdk';
 import { Contract } from '@ethersproject/contracts';
 import {
   AlchemyWebSocketProvider,
