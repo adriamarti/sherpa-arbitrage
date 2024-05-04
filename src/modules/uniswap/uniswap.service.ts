@@ -1,13 +1,11 @@
 import { Contract } from '@ethersproject/contracts';
-import {
-  AlchemyWebSocketProvider,
-  AlchemyProvider,
-} from '@ethersproject/providers';
+import { AlchemyWebSocketProvider } from '@ethersproject/providers';
 
 import { config } from '../../utils/config';
 import UniswapV2Factory from './contracts/UniswapV2Factory';
 import UniswapV2Pair from './contracts/UniswapV2Pair';
 import { logger } from '../../utils/logger';
+import { provider } from '../../utils/ethereum';
 import { Token } from '../token/token.model';
 
 /**
@@ -28,7 +26,6 @@ export const getPairAddress = async (
   token1: string,
   token2: string,
 ): Promise<string> => {
-  const provider = new AlchemyProvider('homestead', config.ALCHEMY_API_KEY);
   const contract = new Contract(
     UniswapV2Factory.address,
     UniswapV2Factory.abi,

@@ -1,14 +1,12 @@
 import { Types } from 'mongoose';
 import { Contract } from '@ethersproject/contracts';
-import { AlchemyProvider } from '@ethersproject/providers';
 import axios from 'axios';
 
 import { Token, TokenModel } from './token.model';
 import { CreateTokenBody, UpdateTokenBody } from './token.schema';
 import { abi } from './contracts/ERC20';
 import { config } from '../../utils/config';
-
-const provider = new AlchemyProvider('homestead', config.ALCHEMY_API_KEY);
+import { provider } from '../../utils/ethereum';
 
 export const createToken = async ({
   address,
