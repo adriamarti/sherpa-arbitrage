@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 
 import { logger } from '../../utils/logger';
 import { getToken } from '../token/token.service';
-import { swapEvent, getPairAddress } from '../uniswap/uniswap.service';
+import { getSwapPairAddresses } from '../swap/swap.service';
 import {
   createPair,
   getAllPairs,
@@ -33,13 +33,9 @@ export const createPairHandler = async (
         message: `Token with ID ${request.body.token0} or token with ID ${request.body.token1} not found.`,
       });
 
-    const uniswapV2Address = await getPairAddress(
-      token0.address,
-      token1.address,
-    );
+    const swapPairAddresses = await getSwapPairAddresses(token0, token1);
 
-    // @TODO check if uniswapV2Address is ZERO (0x00000...)
-    const pair = await createPair({ ...request.body, uniswapV2Address });
+    const pair = await createPair({ ...request.body, ...swapPairAddresses });
 
     await addPairToken(token0._id, pair._id);
     await addPairToken(token1._id, pair._id);
@@ -58,7 +54,8 @@ export const getAllPairsHandler = async (_: unknown, reply: FastifyReply) => {
       total: pairs.length,
       page: pairs.map((pair) => ({
         ...pair,
-        swapEvent: { uniswapV2: Boolean(swapEvent[pair.uniswapV2Address]) },
+        // @TODO add if pair swap event is ongoing
+        // swapEvent: { uniswapV2: Boolean(swapEvent[pair.uniswapV2Address]) },
       })),
     });
   } catch (e) {
@@ -81,7 +78,8 @@ export const getPairHandler = async (
 
     return reply.code(200).send({
       ...pair,
-      swapEvent: { uniswapV2: Boolean(swapEvent[pair.uniswapV2Address]) },
+      // @TODO add if pair swap event is ongoing
+      // swapEvent: { uniswapV2: Boolean(swapEvent[pair.uniswapV2Address]) },
     });
   } catch (e) {
     logger.error(e, 'getPairHandler: error create pair');

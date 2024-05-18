@@ -1,18 +1,24 @@
-## About
+This is the back end servcie to manage arbitrage opportunities between descentralized exchanges.
 
-This bot is based on https://www.youtube.com/watch?v=m0VBsAOMsw8
-
-### Descentralized Exchanges
+## Descentralized Exchanges
 
 This bot would only work with Descnetralized Exchanges that have been forked from [Uniswap V2](https://docs.uniswap.org/) to ensure that they share the basic features. You could find a list of all the available DeEx in [DeFiLama](https://defillama.com/forks/Uniswap%20V2).
 
-#### Potentical DeExchanges
+### Potentical DeExchanges
 
 1. [Uniswap V2](https://docs.uniswap.org/)
 2. [PancakeSwap](https://docs.pancakeswap.finance/)
 3. [SushiSwap](https://www.sushi.com/)
 
-### DB Architecture
+## Data and Basic Operations
+
+#### Token
+
+**This is the basic data that needs to be introduced.** We just need the ethereum token address and then all data is filled by the service. Once a token is created you can get/update/delete as any other resource.
+
+#### Pair
+
+This data requires to have previously created some tokens as this is the relation between 2 tokens. We need the MongoIDs of 2 tokens
 
 ```mermaid
 classDiagram

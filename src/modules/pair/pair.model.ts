@@ -9,7 +9,10 @@ export class Pair extends Document {
   token1!: Ref<any>;
 
   @prop({ type: String, required: false })
-  uniswapV2Address!: string;
+  uniSwap!: string;
+
+  @prop({ type: String, required: false })
+  sushiSwap!: string;
 }
 
 export const PairModel = getModelForClass(Pair, {
