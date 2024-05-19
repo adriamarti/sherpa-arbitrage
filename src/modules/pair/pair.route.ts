@@ -6,6 +6,7 @@ import {
   getPairHandler,
   updatePairHandler,
   deletePairHandler,
+  startPairSwapHandler,
 } from './pair.controller';
 import {
   createPairSchema,
@@ -24,5 +25,6 @@ export const pairRoute = (
   app.get('/:pairId', { schema: getPairSchema }, getPairHandler);
   app.put('/:pairId', { schema: updatePairSchema }, updatePairHandler);
   app.delete('/:pairId', { schema: deletePairSchema }, deletePairHandler);
+  app.get('/swap/:pairId', { schema: getPairSchema }, startPairSwapHandler);
   done();
 };

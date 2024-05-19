@@ -22,7 +22,9 @@ export const pair = Type.Object({
     updatedAt: Type.String(),
     price: Type.Optional(Type.Number()),
   }),
-  uniswapV2Address: Type.Optional(Type.String()),
+  uniSwap: Type.Optional(Type.String()),
+  sushiSwap: Type.Optional(Type.String()),
+  // pancakeSwap: Type.Optional(Type.String()),
   swapEvent: Type.Optional(
     Type.Object({
       uniswapV2: Type.Optional(Type.Boolean()),
@@ -38,7 +40,6 @@ export const createPairSchema = {
   body: Type.Object({
     token0: Type.String(),
     token1: Type.String(),
-    uniswapV2Address: Type.Optional(Type.String()),
   }),
   response: {
     201: pair,
@@ -54,6 +55,15 @@ export const getPairSchema = {
   },
 };
 
+export const startPairSwapSchema = {
+  tags: ['pair'],
+  description: 'Start a pair swap event listeners',
+  params: Type.Object({ pairId: Type.String() }),
+  response: {
+    200: pair,
+  },
+};
+
 export const updatePairSchema = {
   tags: ['pair'],
   description: 'Update a pair resource',
@@ -61,7 +71,9 @@ export const updatePairSchema = {
   body: Type.Object({
     token0: Type.String(),
     token1: Type.String(),
-    uniswapV2Address: Type.Optional(Type.String()),
+    uniSwap: Type.Optional(Type.String()),
+    sushiSwap: Type.Optional(Type.String()),
+    // pancakeSwap: Type.Optional(Type.String()),
   }),
   response: {
     200: pair,
@@ -82,3 +94,4 @@ export type GetPairParams = Static<typeof getPairSchema.params>;
 export type UpdatePairBody = Static<typeof updatePairSchema.body>;
 export type UpdatePairParams = Static<typeof updatePairSchema.params>;
 export type DeletePairParams = Static<typeof deletePairSchema.params>;
+export type StartPairSwapParams = Static<typeof startPairSwapSchema.params>;

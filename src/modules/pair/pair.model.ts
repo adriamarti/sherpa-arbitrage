@@ -13,6 +13,9 @@ export class Pair extends Document {
 
   @prop({ type: String, required: false })
   sushiSwap!: string;
+
+  // @prop({ type: String, required: false })
+  // pancakeSwap!: string;
 }
 
 export const PairModel = getModelForClass(Pair, {

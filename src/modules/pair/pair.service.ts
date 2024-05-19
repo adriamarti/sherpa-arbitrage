@@ -1,9 +1,9 @@
 import { Types } from 'mongoose';
 
 import { Pair, PairModel } from './pair.model';
-import { CreatePairBody, UpdatePairBody } from './pair.schema';
+import { UpdatePairBody } from './pair.schema';
 
-export const createPair = async (input: CreatePairBody): Promise<Pair> => {
+export const createPair = async (input: any): Promise<Pair> => {
   return PairModel.create({ ...input });
 };
 
