@@ -43,20 +43,26 @@ export const createPairHandler = async (
     const swapPairAddresses = await getSwapPairAddresses(token0, token1);
 
     // Token0 and Token1 could be different at the contract
-    const pair = await createPair({
+    // we ensure with .find() that we store the same reference from SC into our DB
+    const createdPair = await createPair({
       token0: [token0, token1].find(
-        ({ address }: Token) => address === swapPairAddresses.token0,
+        ({ address }: Token) =>
+          address.toLowerCase() === swapPairAddresses.token0.toLowerCase(),
       )?._id,
       token1: [token0, token1].find(
-        ({ address }: Token) => address === swapPairAddresses.token1,
+        ({ address }: Token) =>
+          address.toLowerCase() === swapPairAddresses.token1.toLowerCase(),
       )?._id,
       uniSwap: swapPairAddresses.uniSwap,
       sushiSwap: swapPairAddresses.sushiSwap,
       // pancakeSwap: swapPairAddresses.pancakeSwap,
     });
 
-    await addPairToken(token0._id, pair._id);
-    await addPairToken(token1._id, pair._id);
+    // Populate the token0 field
+    const pair = await getPair(createdPair._id);
+
+    await addPairToken(token0._id, createdPair._id);
+    await addPairToken(token1._id, createdPair._id);
 
     return reply.code(201).send(pair);
   } catch (e) {
@@ -72,7 +78,7 @@ export const getAllPairsHandler = async (_: unknown, reply: FastifyReply) => {
       total: pairs.length,
       page: pairs.map((pair) => ({
         ...pair,
-        swapEvent: swapEvent[pair._id],
+        swapEvent: getSwapEventData(pair._id.toString()),
       })),
     });
   } catch (e) {
@@ -95,7 +101,7 @@ export const getPairHandler = async (
 
     return reply.code(200).send({
       ...pair,
-      swapEvent: swapEvent[pair._id],
+      swapEvent: getSwapEventData(pair._id.toString()),
     });
   } catch (e) {
     logger.error(e, 'getPairHandler: error create pair');
@@ -160,10 +166,18 @@ export const startPairSwapHandler = async (
 
     return reply.code(200).send({
       ...pair,
-      swapEvent: swapEvent[pair._id],
+      swapEvent: getSwapEventData(pair._id.toString()),
     });
   } catch (e) {
     logger.error(e, 'getPairHandler: error create pair');
     return reply.code(400).send({ message: 'Error get pair' });
   }
+};
+
+const getSwapEventData = (pairId: string) => {
+  return {
+    uniSwap: Boolean(swapEvent[pairId]?.uniSwap),
+    sushiSwap: Boolean(swapEvent[pairId]?.sushiSwap),
+    // pancakeSwap: Boolean(swapEvent[pairId].pancakeSwap),
+  };
 };

@@ -27,7 +27,9 @@ export const pair = Type.Object({
   // pancakeSwap: Type.Optional(Type.String()),
   swapEvent: Type.Optional(
     Type.Object({
-      uniswapV2: Type.Optional(Type.Boolean()),
+      uniSwap: Type.Optional(Type.Boolean()),
+      sushiSwap: Type.Optional(Type.Boolean()),
+      // pancakeSwap: Type.Optional(Type.Boolean()),
     }),
   ),
   createdAt: Type.String(),

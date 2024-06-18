@@ -18,24 +18,7 @@ This bot would only work with Descnetralized Exchanges that have been forked fro
 
 #### Pair
 
-This data requires to have previously created some tokens as this is the relation between 2 tokens. We need the MongoIDs of 2 tokens
-
-```mermaid
-classDiagram
-    Token <|--|> Pair
-    class Token{
-        name!: string
-        symbol!: string
-        decimals!: number
-        address!: string
-        pairs: Pair[]
-    }
-    class Pair{
-        token0!: Token
-        token1!: Token
-        uniswapV2Address!: string
-    }
-```
+This data requires to have previously created some tokens as this is the relation between 2 tokens. We need the MongoIDs of 2 tokens. The reference to token0 and token1 could be deifferent when the request is processed as it will define the data as it is returned from the Pair Smart Contract.
 
 #### Potential Tokens
 
@@ -59,5 +42,17 @@ classDiagram
 - Add Husky
 - Add MongoDB Url into .env
 - Add Swagger docs
+- Ensure all addresses stored are in lower case, ensure all address comparasions convert address to lower case
+- There is the following error when a pair is added (probably th eissue is in the response schema validation):
+  ```
+  {
+    "statusCode": 500,
+    "error": "Internal Server Error",
+    "message": "\"_id\" is required!"
+  }
+  ```
 
-All this code is inspired on https://www.youtube.com/watch?v=8u3zQkLz9gQ&t=3712s
+### Code Inspiration
+
+- [Build, Test & Deploy an Application](https://www.youtube.com/watch?v=8u3zQkLz9gQ&t=3712s)
+- [Dapp University - Arbitrage with Flash Loans](https://www.youtube.com/watch?v=-OdefEgdu-I)

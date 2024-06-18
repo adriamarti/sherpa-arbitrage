@@ -10,8 +10,8 @@ import PairAbi from './contracts/Pair.abi';
 import {
   SwapProtocol,
   swapFactoryAddress,
-  swapEvent,
   protocols,
+  swapEvent,
 } from './swap.constants';
 import { Token } from '../token/token.model';
 import { Pair } from '../pair/pair.model';
@@ -45,12 +45,12 @@ export const getSwapPairAddresses = async (
           provider,
         );
         swapPairAddresses[protocol as SwapProtocol] =
-          await factoryContract.getAddress(token0.address, token1.address);
+          await factoryContract.getPair(token0.address, token1.address);
 
-        if (protocol === 'uniswap') {
+        if (protocol === 'uniSwap') {
           const pairContract = new Contract(
             swapPairAddresses.uniSwap,
-            FactoryAbi,
+            PairAbi,
             provider,
           );
           swapPairAddresses.token0 = await pairContract.token0();
@@ -97,6 +97,8 @@ export const startSwapEventListener = (pair: Pair): any => {
 
   protocols.forEach((protocol: SwapProtocol) => {
     // Set swap event data
+    // const currentPairProtocolData =
+    swapEvent[pair._id] = swapEvent[pair._id] || {};
     swapEvent[pair._id][protocol] = {
       provider,
       contract: new Contract(pair[protocol], PairAbi, provider),
@@ -109,7 +111,7 @@ export const startSwapEventListener = (pair: Pair): any => {
     swapEvent[pair._id][protocol].contract.on(
       'Swap',
       (sender, amount0In, amount1In, amount0Out, amount1Out, to) =>
-        swapEventHandler('uniSwap', pair, {
+        swapEventHandler(protocol, pair, {
           sender,
           amount0In,
           amount1In,
